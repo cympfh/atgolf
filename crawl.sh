@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# contest name filter
+CFILTER=${CFILTER:-.*}
+
 get() {
     sleep 1
     curl -sL $@
@@ -19,7 +22,7 @@ get-contests() {
             grep '	<a href="/contests/' |
             grep -o '/contests/[^"]*' | sed 's#/contests/##g' > $TMPDIR/contests
         if [ -s $TMPDIR/contests ]; then
-            cat $TMPDIR/contests
+            cat $TMPDIR/contests | grep "$CFILTER"
             continue
         else
             break
